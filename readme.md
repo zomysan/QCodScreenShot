@@ -36,3 +36,8 @@ $ ./QCodScreenShot
 ![20190212_154030](https://user-images.githubusercontent.com/46142035/52618057-1537ab80-2ee1-11e9-98ea-b4ba3570ea11.png)
 #### Japanese
 ![20190212_154117](https://user-images.githubusercontent.com/46142035/52618059-17016f00-2ee1-11e9-93fb-9e056ce83cb0.png)
+
+
+## Thanks
+
+Cool icons: [ICOOON MONO](http://icooon-mono.com/)
