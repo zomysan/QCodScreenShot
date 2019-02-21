@@ -23,9 +23,6 @@ public:
   public:
     IntKey(QString str) : QString(str){}
   };
-
-  // If you add key here,
-  // You need to edit setting.cpp too.
   static StringKey Path;
   static StringKey Language;
   static StringKey Filetype;
@@ -56,14 +53,6 @@ public:
     return value<QRect>(key);
   }
 
-  template <typename T> static T value(const QString &key){
-    return getInstance().valueInstance<T>(key);
-  }
-  template <typename T> static void setValue(const QString &key, const T value){
-    getInstance().setValueInstance(key, value);
-  }
-
-
 public slots:
   void writeData();
 
@@ -84,6 +73,13 @@ private:
   template <typename T> void setValueInstance(const QString &key, const T &value) {
     data_.insert(key, value);
   }
+  template <typename T> static T value(const QString &key){
+    return getInstance().valueInstance<T>(key);
+  }
+  template <typename T> static void setValue(const QString &key, const T value){
+    getInstance().setValueInstance(key, value);
+  }
+
 
 };
 

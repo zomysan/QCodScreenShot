@@ -12,10 +12,10 @@ ScreenShotSaver::ScreenShotSaver()
 
 void ScreenShotSaver::save(QPixmap pixmap, QPoint focusPoint)
 {
-  QString filepath = Settings::getInstance().path();
+  QString filepath = Settings::value(Settings::Path);
   QString filename = QDateTime::currentDateTime().toString(
-        Settings::getInstance().filename());
-  QString filetype = Settings::getInstance().filetype();
+        Settings::value(Settings::Filename));
+  QString filetype = Settings::value(Settings::Filetype);
 
   filepath += "/";
   filepath += filename;
@@ -34,17 +34,17 @@ void ScreenShotSaver::save(QPixmap pixmap, QPoint focusPoint)
   }
 
   // make image alpha channel
-  if(Settings::getInstance().forcePngAlpha()){
+  if(Settings::value(Settings::ForcePngAlpha)){
     if(filetype == "png"){
       pixmap = ImageConverter::convertToAlphaSecretly(pixmap);
     }
   }
 
   pixmap.save(filepath, filetype.toStdString().c_str(),
-              Settings::getInstance().quality());
+              Settings::value(Settings::Quality));
 
   // png quant
-  if(Settings::getInstance().aggressivePngCompress() == true){
+  if(Settings::value(Settings::AggressivePngCompress) == true){
     if(filetype == "png"){
       QString command = "./pngquant.exe";
       QStringList args;
@@ -54,9 +54,9 @@ void ScreenShotSaver::save(QPixmap pixmap, QPoint focusPoint)
   }
 
   // show in explorer
-  if(Settings::getInstance().openDialog()){
+  if(Settings::value(Settings::OpenDialog)){
     QDesktopServices::openUrl(
-          QUrl(Settings::getInstance().path(), QUrl::TolerantMode));
+          QUrl(Settings::value(Settings::Path), QUrl::TolerantMode));
   }
 }
 
@@ -65,7 +65,7 @@ bool ScreenShotSaver::checkSaveOk(QString filepath)
   if(QFile(filepath).exists() == false){
     return true;
   }
-  if(Settings::getInstance().overwriteConfirm() == false){
+  if(Settings::value(Settings::OverwriteConfirm) == false){
     return true;
   }
   QMessageBox::StandardButton button =

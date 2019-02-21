@@ -137,7 +137,7 @@ void ScreenShotDialog::mouseReleaseEvent(QMouseEvent *e)
   endPos_ = e->pos();
 
   // draw arrow pos?
-  if(Settings::getInstance().drawArrow()){
+  if(Settings::value(Settings::DrawArrow)){
     arrowPosSelecting_ = true;
   } else {
     takePartShot();

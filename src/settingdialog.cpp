@@ -53,27 +53,19 @@ void SettingDialog::selectFolder()
 
 void SettingDialog::finish()
 {
-  Settings &instance = Settings::getInstance();
-
   // Settingsクラスに設定を反映する
-  Settings::getInstance().setFilename(ui->le_filename->text());
-  Settings::getInstance().setLanguage(getLanguageFromUi());
-  Settings::getInstance().setFiletype(ui->cb_filetype->currentText());
-  Settings::getInstance().setPath(ui->l_path->text());
-  Settings::getInstance().setOpenDialog(
-        ui->cb_openDialog->isChecked());
-  Settings::getInstance().setDrawArrow(
-        ui->cb_drawArrow->isChecked());
-  Settings::getInstance().setOverwriteConfirm(
-        ui->cb_overwriteConfirm->isChecked());
-  Settings::getInstance().setAggressivePngCompress(
-        ui->cb_aggressivePngCompress->isChecked());
-  Settings::getInstance().setForcePngAlpha(
-        ui->cb_forcePngAlpha->isChecked());
-  Settings::getInstance().setStayOnTop(
-        ui->cb_stayOnTop->isChecked());
-  Settings::getInstance().setDelaySecs(ui->sb_delaySecs->value());
-  Settings::getInstance().setQuality(ui->sb_quality->value());
+  Settings::setValue(Settings::Filename, ui->le_filename->text());
+  Settings::setValue(Settings::Language, getLanguageFromUi());
+  Settings::setValue(Settings::Filetype, ui->cb_filetype->currentText());
+  Settings::setValue(Settings::Path, ui->l_path->text());
+  Settings::setValue(Settings::OpenDialog, ui->cb_openDialog->isChecked());
+  Settings::setValue(Settings::DrawArrow, ui->cb_drawArrow->isChecked());
+  Settings::setValue(Settings::OverwriteConfirm, ui->cb_overwriteConfirm->isChecked());
+  Settings::setValue(Settings::AggressivePngCompress, ui->cb_aggressivePngCompress->isChecked());
+  Settings::setValue(Settings::ForcePngAlpha, ui->cb_forcePngAlpha->isChecked());
+  Settings::setValue(Settings::StayOnTop, ui->cb_stayOnTop->isChecked());
+  Settings::setValue(Settings::DelaySecs, ui->sb_delaySecs->value());
+  Settings::setValue(Settings::Quality, ui->sb_quality->value());
 
   // Setting書出
   Settings::getInstance().writeData();
@@ -101,18 +93,18 @@ void SettingDialog::updatePngSettingShowState()
 void SettingDialog::loadSettings()
 {
   // Settingsクラスから設定を読み込み、初期状態とする
-  ui->l_path->setText(Settings::getInstance().path());
-  setLanguageToUi(Settings::getInstance().language());
-  ui->le_filename->setText(Settings::getInstance().filename());
-  ui->cb_filetype->setCurrentText(Settings::getInstance().filetype());
-  ui->cb_openDialog->setChecked(Settings::getInstance().openDialog());
-  ui->cb_drawArrow->setChecked(Settings::getInstance().drawArrow());
-  ui->cb_overwriteConfirm->setChecked(Settings::getInstance().overwriteConfirm());
-  ui->cb_aggressivePngCompress->setChecked(Settings::getInstance().aggressivePngCompress());
-  ui->cb_forcePngAlpha->setChecked(Settings::getInstance().forcePngAlpha());
-  ui->cb_stayOnTop->setChecked(Settings::getInstance().stayOnTop());
-  ui->sb_delaySecs->setValue(Settings::getInstance().delaySecs());
-  ui->sb_quality->setValue(Settings::getInstance().quality());
+  ui->l_path->setText(Settings::value(Settings::Path));
+  setLanguageToUi(Settings::value(Settings::Language));
+  ui->le_filename->setText(Settings::value(Settings::Filename));
+  ui->cb_filetype->setCurrentText(Settings::value(Settings::Filetype));
+  ui->cb_openDialog->setChecked(Settings::value(Settings::OpenDialog));
+  ui->cb_drawArrow->setChecked(Settings::value(Settings::DrawArrow));
+  ui->cb_overwriteConfirm->setChecked(Settings::value(Settings::OverwriteConfirm));
+  ui->cb_aggressivePngCompress->setChecked(Settings::value(Settings::AggressivePngCompress));
+  ui->cb_forcePngAlpha->setChecked(Settings::value(Settings::ForcePngAlpha));
+  ui->cb_stayOnTop->setChecked(Settings::value(Settings::StayOnTop));
+  ui->sb_delaySecs->setValue(Settings::value(Settings::DelaySecs));
+  ui->sb_quality->setValue(Settings::value(Settings::Quality));
 
   // 表示状態の更新
   updatePngSettingShowState();

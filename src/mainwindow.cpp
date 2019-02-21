@@ -29,7 +29,7 @@ void MainWindow::initialize()
   settingDialog_->initialize();
 
   setWindowFlags(Qt::FramelessWindowHint);
-  if(Settings::getInstance().stayOnTop()){
+  if(Settings::value(Settings::StayOnTop)){
     setWindowFlags(Qt::WindowStaysOnTopHint|Qt::FramelessWindowHint);
   }
 
@@ -71,7 +71,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e)
 
 void MainWindow::beginTimerScreenShot()
 {
-  int time = Settings::getInstance().delaySecs();
+  int time = Settings::value(Settings::DelaySecs);
   ui->b_timer->setText(QString("%1").arg(time));
   countDownAction_->start(time);
 }

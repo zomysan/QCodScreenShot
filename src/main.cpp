@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
   // translate
   QTranslator translator;
-  QString lang = Settings::getInstance().language();
+  QString lang = Settings::value(Settings::Language);
   translator.load(QString("translate/qcss_") + lang);
   a.installTranslator(&translator);
 
