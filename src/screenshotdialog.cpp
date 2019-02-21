@@ -4,7 +4,9 @@
 #include <QGuiApplication>
 #include <QScreen>
 #include <QPainter>
+#include "settings.h"
 #include <QDebug>
+#include <QFontMetrics>
 #include "screenshotsaver.h"
 
 ScreenShotDialog::ScreenShotDialog(QWidget *parent) :
@@ -17,6 +19,8 @@ void ScreenShotDialog::beginSelectArea()
 {
   startPos_ = QPoint(0, 0);
   endPos_ = QPoint(0, 0);
+  arrowPosSelecting_ = false;
+  arrowAbsolutePos_ = QPoint(0, 0);
 
   setGeometry(QApplication::desktop()->screenGeometry());
   showFullScreen();
@@ -47,10 +51,36 @@ void ScreenShotDialog::paintEvent(QPaintEvent *)
   painter.drawPath(path);
 
   // draw cursor
-  if(startPos_.isNull()) {
-    painter.setPen(QPen(Qt::white, 1, Qt::DashLine, Qt::RoundCap));
+  if(startPos_.isNull() || arrowPosSelecting_) {
+    painter.setPen(QPen(QColor(255, 255, 255, 100), 1, Qt::DashLine, Qt::RoundCap));
+    if(arrowPosSelecting_){
+      painter.setPen(QPen(QColor(0, 0, 0, 100), 1, Qt::DashLine, Qt::RoundCap));
+    }
     painter.drawLine(0, cursolPos_.y(), width(), cursolPos_.y());
     painter.drawLine(cursolPos_.x(), 0, cursolPos_.x(), height());
+  }
+
+  // draw guide text
+  if(arrowPosSelecting_) {
+    painter.translate(getCorrectedRect().topLeft());
+    painter.translate(5, 5);
+
+    QFont font("Tahoma", 10);
+    QString text = tr("Click cursor position.");
+    painter.setFont(font);
+
+    QFontMetrics m(font);
+    QRect textRect = m.boundingRect(text);
+    textRect = textRect.marginsAdded(QMargins(3,3,3,3));
+    textRect.moveTopLeft(QPoint(0, 0));
+
+    QColor bgColor = QColor(255, 255, 255, 200);
+    painter.setBrush(bgColor);
+    painter.setPen(Qt::NoPen);
+    painter.drawRoundedRect(textRect, 3, 3);
+
+    painter.setPen(Qt::black);
+    painter.drawText(textRect, Qt::AlignCenter, text);
   }
 }
 
@@ -70,12 +100,21 @@ void ScreenShotDialog::mouseMoveEvent(QMouseEvent *e)
 void ScreenShotDialog::mousePressEvent(QMouseEvent *e)
 {
   if(e->button() == Qt::RightButton){
+    if(arrowPosSelecting_){
+      // abort add arrow
+      arrowAbsolutePos_ = QPoint(0, 0);
+      takePartShot();
+    }
     close();
     return;
   }
 
   if(e->button() == Qt::LeftButton){
     // left click: fix start pos
+    if(arrowPosSelecting_){
+      arrowAbsolutePos_ = e->pos();
+      return;
+    }
     startPos_ = e->pos();
     return;
   }
@@ -83,12 +122,43 @@ void ScreenShotDialog::mousePressEvent(QMouseEvent *e)
 
 void ScreenShotDialog::mouseReleaseEvent(QMouseEvent *e)
 {
+  if(arrowPosSelecting_){
+    if(arrowAbsolutePos_ == e->pos()){
+      // clicked -> fix
+      takePartShot();
+      return;
+    }
+    // dragged -> retry
+    arrowAbsolutePos_ = QPoint(0, 0);
+    return;
+  }
+
   // end of dragging: fix end pos
   endPos_ = e->pos();
-  takePartShot();
+
+  // draw arrow pos?
+  if(Settings::getInstance().drawArrow()){
+    arrowPosSelecting_ = true;
+  } else {
+    takePartShot();
+  }
 }
 
 void ScreenShotDialog::takePartShot()
+{
+  QRect rect = getCorrectedRect();
+
+  // copy selected area
+  QPixmap pixmap = screenShotPixmap_.copy(rect);
+
+  close();
+
+  // save screenshot image
+  QPoint arrowPos = arrowAbsolutePos_ - rect.topLeft();
+  ScreenShotSaver::save(pixmap, arrowPos);
+}
+
+QRect ScreenShotDialog::getCorrectedRect()
 {
   // left/right, top/bottom correction
   int left = startPos_.x();
@@ -104,12 +174,5 @@ void ScreenShotDialog::takePartShot()
     bottom = startPos_.y();
   }
 
-  // copy selected area
-  QPixmap pixmap = screenShotPixmap_.copy(
-        QRect(QPoint(left, top), QPoint(right, bottom)));
-
-  close();
-
-  // save screenshot image
-  ScreenShotSaver::save(pixmap);
+  return QRect(left, top, (right-left), (bottom-top));
 }

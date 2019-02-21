@@ -62,6 +62,8 @@ void SettingDialog::finish()
   Settings::getInstance().setPath(ui->l_path->text());
   Settings::getInstance().setOpenDialog(
         ui->cb_openDialog->isChecked());
+  Settings::getInstance().setDrawArrow(
+        ui->cb_drawArrow->isChecked());
   Settings::getInstance().setOverwriteConfirm(
         ui->cb_overwriteConfirm->isChecked());
   Settings::getInstance().setAggressivePngCompress(
@@ -104,6 +106,7 @@ void SettingDialog::loadSettings()
   ui->le_filename->setText(Settings::getInstance().filename());
   ui->cb_filetype->setCurrentText(Settings::getInstance().filetype());
   ui->cb_openDialog->setChecked(Settings::getInstance().openDialog());
+  ui->cb_drawArrow->setChecked(Settings::getInstance().drawArrow());
   ui->cb_overwriteConfirm->setChecked(Settings::getInstance().overwriteConfirm());
   ui->cb_aggressivePngCompress->setChecked(Settings::getInstance().aggressivePngCompress());
   ui->cb_forcePngAlpha->setChecked(Settings::getInstance().forcePngAlpha());

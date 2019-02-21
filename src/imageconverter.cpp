@@ -4,6 +4,8 @@
 #include <QImage>
 #include <QPainter>
 
+QPoint ImageConverter::ARROW_IMAGE_OFFSET = QPoint(12, 27); // arrow tip
+
 ImageConverter::ImageConverter()
 {
 
@@ -23,5 +25,16 @@ QImage ImageConverter::convertToAlphaSecretly(const QImage &image)
   topLeftColor.setAlpha(254);
   newImage.setPixelColor(0, 0, topLeftColor);
 
+  return newImage;
+}
+
+QPixmap ImageConverter::addArrow(const QPixmap &image, const QPoint point)
+{
+  QPixmap newImage = image.copy();
+  QPainter painter(&newImage);
+  QImage arrowImage;
+  arrowImage.load("resource/arrow.png");
+  painter.translate(-ARROW_IMAGE_OFFSET);
+  painter.drawImage(point, arrowImage);
   return newImage;
 }

@@ -22,15 +22,23 @@
 <context>
     <name>MyClass</name>
     <message>
-        <location filename="../src/screenshotsaver.cpp" line="68"/>
+        <location filename="../src/screenshotsaver.cpp" line="73"/>
         <source>Confirm</source>
         <translation>確認</translation>
     </message>
     <message>
-        <location filename="../src/screenshotsaver.cpp" line="69"/>
+        <location filename="../src/screenshotsaver.cpp" line="74"/>
         <source>%1 is already exists.
 Do you want to replace it?</source>
         <translation>%1はすでに存在します。\n新しいファイルに置き換えますか？</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenShotDialog</name>
+    <message>
+        <location filename="../src/screenshotdialog.cpp" line="66"/>
+        <source>Click cursor position.</source>
+        <translation>カーソルを表示する位置をクリックしてください</translation>
     </message>
 </context>
 <context>
@@ -108,9 +116,13 @@ Do you want to replace it?</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settingdialog.ui" line="292"/>
+        <location filename="../src/settingdialog.ui" line="315"/>
+        <source>Draw arrow image on screen shot</source>
+        <translation>カーソル画像を追加する</translation>
+    </message>
+    <message>
         <source>Settings for png</source>
-        <translation>png用設定</translation>
+        <translation type="vanished">png用設定</translation>
     </message>
     <message>
         <location filename="../src/settingdialog.ui" line="305"/>
@@ -147,6 +159,11 @@ Do you want to replace it?</source>
         <location filename="../src/settingdialog.ui" line="92"/>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <location filename="../src/settingdialog.ui" line="292"/>
+        <source>Setting for png</source>
+        <translation>png用設定</translation>
     </message>
     <message>
         <location filename="../src/settingdialog.ui" line="298"/>

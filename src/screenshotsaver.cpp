@@ -10,7 +10,7 @@ ScreenShotSaver::ScreenShotSaver()
 {
 }
 
-void ScreenShotSaver::save(QPixmap pixmap)
+void ScreenShotSaver::save(QPixmap pixmap, QPoint focusPoint)
 {
   QString filepath = Settings::getInstance().path();
   QString filename = QDateTime::currentDateTime().toString(
@@ -26,6 +26,11 @@ void ScreenShotSaver::save(QPixmap pixmap)
 
   if(saveOk == false){
     return;
+  }
+
+  // add arrow to image
+  if(focusPoint.isNull() == false){
+    pixmap = ImageConverter::addArrow(pixmap, focusPoint);
   }
 
   // make image alpha channel

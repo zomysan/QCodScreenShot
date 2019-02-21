@@ -12,6 +12,7 @@ public:
   QString filetype_;
   QRect geometry_;
   bool openDialog_;
+  bool drawArrow_;
   bool overwriteConfirm_;
   bool aggressivePngCompress_;
   bool forcePngAlpha_;
@@ -30,6 +31,7 @@ public:
   void setFilename(const QString &filename) { filename_ = filename; }
   void setGeometry(const QRect &geometry) { geometry_ = geometry; }
   void setOpenDialog(const bool &openDialog) { openDialog_ = openDialog; }
+  void setDrawArrow(const bool &drawArrow) { drawArrow_ = drawArrow; }
   void setOverwriteConfirm(const bool &overwriteConfirm) { overwriteConfirm_ = overwriteConfirm; }
   void setAggressivePngCompress(const bool &aggressivePngCompress) { aggressivePngCompress_ = aggressivePngCompress; }
   void setForcePngAlpha(const bool &forcePngAlpha) { forcePngAlpha_ = forcePngAlpha;}
@@ -42,6 +44,7 @@ public:
   QString filename(void){ return filename_; }
   QRect geometry() const { return geometry_; }
   bool openDialog() const { return openDialog_; }
+  bool drawArrow() const { return drawArrow_; }
   bool overwriteConfirm() const { return overwriteConfirm_; }
   bool aggressivePngCompress() const { return aggressivePngCompress_; }
   bool forcePngAlpha() const { return forcePngAlpha_; }

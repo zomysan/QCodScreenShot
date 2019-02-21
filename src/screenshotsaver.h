@@ -8,7 +8,7 @@ class ScreenShotSaver
   Q_DECLARE_TR_FUNCTIONS(MyClass)
 public:
   ScreenShotSaver();
-  static void save(QPixmap pixmap);
+  static void save(QPixmap pixmap, QPoint focusPoint = QPoint());
 
 private:
   static bool checkSaveOk(QString filepath);

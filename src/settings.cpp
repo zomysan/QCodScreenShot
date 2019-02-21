@@ -22,6 +22,7 @@ void Settings::readData()
   language_ = settings.value("settings/language").toString();
   geometry_ = settings.value("settings/geometry").toRect();
   openDialog_ = settings.value("settings/openDialog").toBool();
+  drawArrow_ = settings.value("settings/drawArrow").toBool();
   overwriteConfirm_ = settings.value("settings/overwriteConfirm").toBool();
   aggressivePngCompress_ = settings.value("settings/aggressivePngCompress").toBool();
   forcePngAlpha_ = settings.value("settings/forcePngAlpha").toBool();
@@ -41,7 +42,7 @@ void Settings::writeData()
   settings.setValue("settings/path", path_);
   settings.setValue("settings/language", language_);
   settings.setValue("settings/geometry", geometry_);
-  settings.setValue("settings/openDialog", openDialog_);
+  settings.setValue("settings/drawArrow", drawArrow_);
   settings.setValue("settings/overwriteConfirm", overwriteConfirm_);
   settings.setValue("settings/aggressivePngCompress", aggressivePngCompress_);
   settings.setValue("settings/forcePngAlpha", forcePngAlpha_);
