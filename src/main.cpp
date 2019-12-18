@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
   QRect screen = QApplication::desktop()->availableGeometry(&w);
   QRect geometry = w.geometry();
 
-  // Show at bottom-left of screen
+  // Show at bottom-right of screen
   int margin = 10;
   w.move(screen.right() - geometry.width() - margin,
          screen.bottom() - geometry.height() - margin);
